@@ -1,0 +1,60 @@
+import turtle
+print("Aviv "*3)
+print("Aviv "*100)
+number1= 4
+print(number1)
+number2 = number1/2
+print(number2)
+ls = [3,4,5]
+for i in ls:
+	print (i)
+print(sum(ls))
+turtle.pensize(10)
+turtle.penup()
+turtle.pencolor("blue")
+turtle.left(180)
+turtle. forward(220)
+turtle.pendown()
+turtle.circle(50)
+
+turtle.penup()
+turtle.pencolor("black")
+turtle.left(180)
+turtle. forward(120)
+turtle.left(180)
+turtle.pendown()
+turtle.circle(50)
+
+turtle.penup()
+turtle.pencolor("red")
+turtle.left(180)
+turtle. forward(120)
+turtle.left(180)
+turtle.pendown()
+turtle.circle(50)
+
+turtle.left(90)
+turtle.penup()
+turtle.forward(150)
+turtle.left(90)
+turtle.forward(60)
+
+turtle.penup()
+turtle.pencolor("green")
+turtle.left(180)
+turtle. forward(120)
+turtle.left(180)
+turtle.pendown()
+turtle.circle(50)
+
+turtle.penup()
+turtle.pencolor("yellow")
+turtle.left(180)
+turtle. forward(120)
+turtle.left(180)
+turtle.pendown()
+turtle.circle(50)
+turtle.penup()
+turtle.right(270)
+turtle.forward(45)
+
