@@ -32,6 +32,7 @@ class Square(Rectangle):
 class Hexagon(Turtle):
 	def __init__(self,lenght):
 		Turtle.__init__(self)
+		self.length = lenght
 		self.setheading(90)
 		turtle.register_shape("Hexagon",((0,0),(self.length,0),((self.length*0.5)+self.length,self.length),(self.length,2*self.length),(0,2*self.length),(-self.length*0.5,self.length),(0,0)))
 		self.shape("Hexagon")
