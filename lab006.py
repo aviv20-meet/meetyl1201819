@@ -1,6 +1,7 @@
 from turtle import *
 import turtle 
 import random
+
 turtle.colormode(255)
 # class Square(Turtle):
 # 	def __init__(self,size):
@@ -36,6 +37,34 @@ class Hexagon(Turtle):
 		self.setheading(90)
 		turtle.register_shape("Hexagon",((0,0),(self.length,0),((self.length*0.5)+self.length,self.length),(self.length,2*self.length),(0,2*self.length),(-self.length*0.5,self.length),(0,0)))
 		self.shape("Hexagon")
-ass = Hexagon(50)
+class Polygon(Turtle):
+	def __init__(self,lenght,number_sides,d_x,d_y):
+		Turtle.__init__(self)
+		self.length = lenght
+		self.d_x = d_x
+		self.d_y = d_y
+		self.setheading(90)
+		turtle.begin_poly()
+		turtle.penup()
+		turtle.speed(0)
+		for i in range(number_sides):
+			turtle.forward(lenght)
+			turtle.left(360/number_sides)
+		turtle.end_poly()
+		turtle.register_shape("A polygon", turtle.get_poly())
+		self.shape("A polygon")
+		self.right(90)
+
+	def move(self):
+			if(self.xcor()<-400 or self.xcor()>400):
+				self.d_x = self.d_x*-1
+			if(self.ycor()<-500 or self.ycor()>500):
+				self.d_y = self.d_y*-1
+			self.goto(self.xcor()+self.d_x,self.ycor() +self.d_y)
+
+ass = Polygon(10,8,10,10)
+
+while(True):
+	ass.move()
 turtle.mainloop()
 
