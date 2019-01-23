@@ -5,6 +5,7 @@ import math
 turtle.tracer(0)
 SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
 SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
+colors = ["Black","Red","Green","Orange","Yellow"]
 turtle.listen()
 class Ball(Turtle):
 	def __init__(self,radius,color,speed,dx,dy,x,y,player):
@@ -34,10 +35,36 @@ class Ball(Turtle):
 				self.dx = self.dx *-1
 			if(newy > (SCREEN_HEIGHT-self.radius) or newy < -(SCREEN_HEIGHT-self.radius)):
 				self.dy = self.dy *-1
-
-
-ball = Ball(100,"black",2, 1,2,100,100,True)
-ball1 = Ball(100,"green",2,9,7,-100,-100,False)
+def bigger_radius(ball1, ball, num = 1):
+	if( num ==1):
+		if(ball1.radius > ball.radius):
+			return ball1
+		if(ball.radius > ball1.radius):
+			return ball
+		else:
+			return ball
+	if(num == 2):
+		if(ball1.radius < ball.radius):
+			return ball1
+		if(ball.radius < ball1.radius):
+			return ball
+		else:
+			return ball1
+def make_balls():
+	BALLS = []
+	for i in range(1,5):
+		color = random.choice(colors)
+		x = random.randint(int(-SCREEN_WIDTH),int(SCREEN_WIDTH))
+		y = random.randint(int(-SCREEN_HEIGHT),int(SCREEN_HEIGHT))
+		xd = random.randint(1,10)
+		yd = random.randint(1,10)
+		speed = random.randint(1,10)
+		radius = random.randint(50,100)
+		player = False
+		ball = Ball(radius,color,speed, dx,dy,x,y,player)
+		balls.appedn(ball)
+ball = Ball(70,"black",2, 9,9,100,100,True)
+ball1 = Ball(100,"green",2,3,4,-100,-100,False)
 def movearound(event):
 		SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
 		SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
@@ -71,19 +98,25 @@ def check_collision(ball1,ball):
 	return False
 while True:
 	if(check_collision(ball,ball1)):
-		
+
+		b = bigger_radius(ball1 , ball)
+		b1 =  bigger_radius(ball1 , ball ,2)
+		if(b1.radius > 1):
+			b.radius +=1
+			b1.radius -=1
+			b.shapesize(b.radius/10)
+			b1.shapesize(b1.radius/10)
+		else: 
+			b1.radius = 90
+			b1.goto(random.randint(int(-SCREEN_WIDTH),int(SCREEN_WIDTH)),random.randint(int(-SCREEN_HEIGHT),int(SCREEN_HEIGHT)))
+			b1.shapesize(b1.radius/10)
+		'''
 		ball1.dx = ball1.dx *-1
 		ball1.dy = ball1.dy *-1
 		ball.dx = ball.dx *-1
 		ball.dy = ball.dy *-1
 		'''
-		tempx = ball1.dx
-		tempy = ball1.dy
-		ball1.dx = ball.dx
-		ball1.dy = ball.dy
-		ball.dx = tempx
-		ball.dy = tempy
-		'''
+
 	SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
 	SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
 	ball1.move()
