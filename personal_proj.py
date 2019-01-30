@@ -66,7 +66,7 @@ def make_balls():
 		player = False
 		ball = Ball(radius,color,speed, dx,dy,x,y,player)
 		BALLS.append(ball)
-BALL = Ball(70,"black",2, 9,9,100,100,True)
+BALL = Ball(random.randint(60,100),"black",2, 9,9,100,100,True)
 # print(BALL.radius)
 # print(BALL)
 def movearound(event):
@@ -124,8 +124,9 @@ def check_all_balls_collision():
 				b.radius = radius
 				b1.radius += 1
 				b1.shapesize(b1.radius/10)
-				b1.goto(x,y)
+				b.goto(x,y)
 def check_my_ball_collision():
+	global score
 	for ball1 in BALLS:
 		if(check_collision(BALL,ball1)):
 			ball_radius = BALL.radius
@@ -153,11 +154,12 @@ def check_my_ball_collision():
 			b.radius = radius
 			b1.radius += 1
 			b1.shapesize(b1.radius/10)
+			score +=1
 	return True
 
 
 make_balls()
-while check_my_ball_collision():
+while check_my_ball_collision() and score < 500:
 
 	check_all_balls_collision()
 	SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
@@ -165,4 +167,5 @@ while check_my_ball_collision():
 	for i in BALLS:
 		i.move()
 		turtle.update()
+print(score)
 turtle.mainloop()
