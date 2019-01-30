@@ -7,6 +7,8 @@ SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
 SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
 colors = ["Black","Red","Green","Orange","Yellow"]
 turtle.listen()
+BALLS = []
+score = 0
 class Ball(Turtle):
 	def __init__(self,radius,color,speed,dx,dy,x,y,player):
 		Turtle.__init__(self)
@@ -51,76 +53,116 @@ def bigger_radius(ball1, ball, num = 1):
 		else:
 			return ball1
 def make_balls():
-	BALLS = []
+	global BALLS
+
 	for i in range(1,5):
 		color = random.choice(colors)
 		x = random.randint(int(-SCREEN_WIDTH),int(SCREEN_WIDTH))
 		y = random.randint(int(-SCREEN_HEIGHT),int(SCREEN_HEIGHT))
-		xd = random.randint(1,10)
-		yd = random.randint(1,10)
+		dx = random.randint(1,10)
+		dy = random.randint(1,10)
 		speed = random.randint(1,10)
 		radius = random.randint(50,100)
 		player = False
 		ball = Ball(radius,color,speed, dx,dy,x,y,player)
-		balls.appedn(ball)
-ball = Ball(70,"black",2, 9,9,100,100,True)
-ball1 = Ball(100,"green",2,3,4,-100,-100,False)
+		BALLS.append(ball)
+BALL = Ball(70,"black",2, 9,9,100,100,True)
+# print(BALL.radius)
+# print(BALL)
 def movearound(event):
-		SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
-		SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
-		mouse_x = event.x-SCREEN_WIDTH
-		mouse_y = SCREEN_HEIGHT-event.y
-		dx =  mouse_x - ball.xcor()
-		
-		dy = mouse_y - ball.ycor() 
-		while(math.sqrt(dx**2 + dy **2) > 10):
-			dx = dx/2
-			dy = dy/2
-		print("{0} {1} {2} ".format(ball.xcor(), mouse_x, dx))
-		newx = ball.xcor() + dx#(event.x-SCREEN_WIDTH) + dx
-		newy = ball.ycor() + dy #(SCREEN_HEIGHT-event.y) + dy
-		
-		
-		if(newx > (SCREEN_WIDTH-ball.radius) or newx < -(SCREEN_WIDTH-ball.radius)):
-			ball.dx = ball.dx *-1
-		if(newy > (SCREEN_HEIGHT-ball.radius) or newy < -(SCREEN_HEIGHT-ball.radius)):
-			ball.dy = ball.dy *-1
-		ball.goto(newx,newy)
-		ball.dx = dx
-		ball.dy = dy
+	SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
+	SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
+	mouse_x = event.x-SCREEN_WIDTH
+	mouse_y = SCREEN_HEIGHT-event.y
+	dx =  mouse_x - BALL.xcor()
+	
+	dy = mouse_y - BALL.ycor() 
+	while(math.sqrt(dx**2 + dy **2) > 10):
+		dx = dx/2
+		dy = dy/2
+	print("{0} {1} {2} ".format(BALL.xcor(), mouse_x, dx))
+	newx = BALL.xcor() + dx#(event.x-SCREEN_WIDTH) + dx
+	newy = BALL.ycor() + dy #(SCREEN_HEIGHT-event.y) + dy
+	
+	
+	if(newx > (SCREEN_WIDTH-BALL.radius) or newx < -(SCREEN_WIDTH-BALL.radius)):
+		BALL.dx = BALL.dx *-1
+	if(newy > (SCREEN_HEIGHT-BALL.radius) or newy < -(SCREEN_HEIGHT-BALL.radius)):
+		BALL.dy = BALL.dy *-1
+	BALL.goto(newx,newy)
+	BALL.dx = dx
+	BALL.dy = dy
 
 turtle.getcanvas().bind("<Motion>", movearound)
 def check_collision(ball1,ball):
-	radius_len = ball1.radius + ball.radius
-	D = math.sqrt((ball1.xcor()-ball.xcor())**2 + (ball1.ycor()-ball.ycor())**2)
-	if(radius_len>D+10):
-		return True
+	if(ball1 != ball):
+		radius_len = ball1.radius + ball.radius
+		D = math.sqrt((ball1.xcor()-ball.xcor())**2 + (ball1.ycor()-ball.ycor())**2)
+		if(radius_len>D+10):
+			return True
 	return False
-while True:
-	if(check_collision(ball,ball1)):
-
-		b = bigger_radius(ball1 , ball)
-		b1 =  bigger_radius(ball1 , ball ,2)
-		if(b1.radius > 1):
-			b.radius +=1
-			b1.radius -=1
-			b.shapesize(b.radius/10)
+def check_all_balls_collision():
+	for a_ball in BALLS:
+		for b_ball in BALLS:
+			if(check_collision(a_ball,b_ball)):
+				a_ball_radius = a_ball.radius
+				b_ball_radius = b_ball.radius
+				color = random.choice(colors)
+				x = random.randint(int(-SCREEN_WIDTH),int(SCREEN_WIDTH))
+				y = random.randint(int(-SCREEN_HEIGHT),int(SCREEN_HEIGHT))
+				dx = random.randint(1,10)
+				dy = random.randint(1,10)
+				speed = random.randint(1,10)
+				radius = random.randint(50,100)
+				b = bigger_radius(a_ball , b_ball)
+				b1 =  bigger_radius(a_ball , b_ball,2)
+				b.x = x
+				b.y = y
+				b.dx = dx
+				b.dy = dy
+				b.speed = speed
+				b.radius = radius
+				b1.radius += 1
+				b1.shapesize(b1.radius/10)
+				b1.goto(x,y)
+def check_my_ball_collision():
+	for ball1 in BALLS:
+		if(check_collision(BALL,ball1)):
+			ball_radius = BALL.radius
+			ball1_radius = ball1.radius
+			if(bigger_radius(BALL,ball1) == ball1):
+				print(BALL)
+				print(BALL.radius)
+				print(ball1.radius)
+				print("\n")
+				return False
+			color = random.choice(colors)
+			x = random.randint(int(-SCREEN_WIDTH),int(SCREEN_WIDTH))
+			y = random.randint(int(-SCREEN_HEIGHT),int(SCREEN_HEIGHT))
+			dx = random.randint(1,10)
+			dy = random.randint(1,10)
+			speed = random.randint(1,10)
+			radius = random.randint(50,100)
+			b = bigger_radius(BALL , ball1 ,2)
+			b1 =  bigger_radius(BALL , ball1)
+			b.x = x
+			b.y = y
+			b.dx = dx
+			b.dy = dy
+			b.speed = speed
+			b.radius = radius
+			b1.radius += 1
 			b1.shapesize(b1.radius/10)
-		else: 
-			b1.radius = 90
-			b1.goto(random.randint(int(-SCREEN_WIDTH),int(SCREEN_WIDTH)),random.randint(int(-SCREEN_HEIGHT),int(SCREEN_HEIGHT)))
-			b1.shapesize(b1.radius/10)
-		'''
-		ball1.dx = ball1.dx *-1
-		ball1.dy = ball1.dy *-1
-		ball.dx = ball.dx *-1
-		ball.dy = ball.dy *-1
-		'''
+	return True
 
+
+make_balls()
+while check_my_ball_collision():
+
+	check_all_balls_collision()
 	SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
 	SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
-	ball1.move()
-	turtle.update()
-	ball.move()
-	turtle.update()
+	for i in BALLS:
+		i.move()
+		turtle.update()
 turtle.mainloop()
