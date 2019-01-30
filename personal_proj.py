@@ -62,11 +62,11 @@ def make_balls():
 		dx = random.randint(1,10)
 		dy = random.randint(1,10)
 		speed = random.randint(1,10)
-		radius = random.randint(50,100)
+		radius = random.randint(10,50)
 		player = False
 		ball = Ball(radius,color,speed, dx,dy,x,y,player)
 		BALLS.append(ball)
-BALL = Ball(random.randint(60,100),"black",2, 9,9,100,100,True)
+BALL = Ball(random.randint(10,50),"black",2, 9,9,100,100,True)
 # print(BALL.radius)
 # print(BALL)
 def movearound(event):
@@ -113,7 +113,7 @@ def check_all_balls_collision():
 				dx = random.randint(1,10)
 				dy = random.randint(1,10)
 				speed = random.randint(1,10)
-				radius = random.randint(50,100)
+				radius = random.randint(10,50)
 				b = bigger_radius(a_ball , b_ball)
 				b1 =  bigger_radius(a_ball , b_ball,2)
 				b.x = x
@@ -143,7 +143,7 @@ def check_my_ball_collision():
 			dx = random.randint(1,10)
 			dy = random.randint(1,10)
 			speed = random.randint(1,10)
-			radius = random.randint(50,100)
+			radius = random.randint(10,50)
 			b = bigger_radius(BALL , ball1 ,2)
 			b1 =  bigger_radius(BALL , ball1)
 			b.x = x
@@ -159,7 +159,7 @@ def check_my_ball_collision():
 
 
 make_balls()
-while check_my_ball_collision() and score < 500:
+while check_my_ball_collision() and score < 100:
 
 	check_all_balls_collision()
 	SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
